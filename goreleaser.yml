@@ -1,0 +1,18 @@
+# goreleaser.yml
+# Build customization
+build:
+  goos:
+    - darwin
+    - linux
+  goarch:
+    - amd64
+
+brew:
+  # Reporitory to push the tap to.
+  github:
+    owner: diasjorge
+    name: homebrew-tap
+
+  # Folder inside the repository to put the formula.
+  # Default is the root folder.
+  folder: Formula
