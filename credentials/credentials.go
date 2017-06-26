@@ -3,6 +3,7 @@ package credentials
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -30,6 +31,8 @@ func Get(profile string, quiet bool) (credentials.Value, error) {
 	if err := cleanEnv(); err != nil {
 		return *&credentials.Value{}, err
 	}
+
+	stscreds.DefaultDuration = 3600 * time.Second
 
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		Config: aws.Config{
