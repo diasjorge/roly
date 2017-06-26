@@ -26,3 +26,9 @@ func Execute() {
 		os.Exit(-1)
 	}
 }
+
+var quiet bool
+
+func init() {
+	RootCmd.PersistentFlags().BoolVarP(&quiet, "quiet", "q", false, "Quiet")
+}

@@ -24,7 +24,7 @@ func exec(cmd *cobra.Command, args []string) error {
 		return cmd.Usage()
 	}
 
-	creds, err := credentials.Get(args[0])
+	creds, err := credentials.Get(args[0], quiet)
 
 	if err != nil {
 		return err

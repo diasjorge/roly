@@ -1,6 +1,7 @@
 package credentials
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -25,7 +26,7 @@ func cleanEnv() error {
 }
 
 // Get returns Profile Credentials
-func Get(profile string) (credentials.Value, error) {
+func Get(profile string, quiet bool) (credentials.Value, error) {
 	if err := cleanEnv(); err != nil {
 		return *&credentials.Value{}, err
 	}
@@ -34,9 +35,16 @@ func Get(profile string) (credentials.Value, error) {
 		Config: aws.Config{
 			CredentialsChainVerboseErrors: aws.Bool(true),
 		},
-		Profile:                 profile,
-		AssumeRoleTokenProvider: stscreds.StdinTokenProvider,
-		SharedConfigState:       session.SharedConfigEnable,
+		Profile: profile,
+		AssumeRoleTokenProvider: func() (string, error) {
+			var v string
+			if !quiet {
+				fmt.Printf("Assume Role MFA token code: ")
+			}
+			_, err := fmt.Scanln(&v)
+			return v, err
+		},
+		SharedConfigState: session.SharedConfigEnable,
 	}))
 
 	return sess.Config.Credentials.Get()
