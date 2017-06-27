@@ -8,11 +8,9 @@ build:
     - amd64
 
 brew:
-  # Reporitory to push the tap to.
   github:
     owner: diasjorge
     name: homebrew-tap
 
-  # Folder inside the repository to put the formula.
-  # Default is the root folder.
-  folder: Formula
+  homepage: "https://github.com/diasjorge/roly/"
+  description: "Set AWS environment variables based on your profile"
