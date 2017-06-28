@@ -31,9 +31,15 @@ role_arn = arn:aws:iam::ACCOUNTID:role/SomeRoleName
 
 ## Usage
 
+**Export**<br>
 roly export target-profile
 
-role exec target-profile env
+**Exec**<br>
+roly exec target-profile command
+
+**One liner export**<br>
+eval $(roly -q export target-profile)
+
 
 ## Known Limitations
 
