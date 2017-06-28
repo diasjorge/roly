@@ -5,6 +5,15 @@ The goal is to make it easy to work with AWS profiles using assume role.
 By working this way you don't need to have credentials in your accounts
 if you can assume a role to it from a different account.
 
+## Installation
+
+Using homebrew
+
+```
+brew tap diasjorge/tap
+brew install roly
+```
+
 ## Configuration
 
 In your ~/.aws/credentials you can set the profiles like this:
