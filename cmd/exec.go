@@ -12,7 +12,11 @@ import (
 var execCmd = &cobra.Command{
 	Use:   "exec PROFILE CMD",
 	Short: "Execute command with AWS environment variables set",
-	RunE:  exec,
+	Long: `Execute command with AWS environment variables set
+
+If you need to pass flags to your command, you need to specify where the flags for the roly command finish using "--" like:
+roly exec -q -- PROFILE CMD --your-command-flags`,
+	RunE: exec,
 }
 
 func init() {
