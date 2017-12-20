@@ -3,6 +3,7 @@ package cmd
 import (
 	"os"
 	osExec "os/exec"
+	"strings"
 
 	"github.com/diasjorge/roly/credentials"
 	"github.com/spf13/cobra"
@@ -14,10 +15,12 @@ var execCmd = &cobra.Command{
 	Short: "Execute command with AWS environment variables set",
 	Long: `Execute command with AWS environment variables set
 
-If you need to pass flags to your command, you need to specify where the flags for the roly command finish using "--" like:
-roly exec -q -- PROFILE CMD --your-command-flags`,
-	RunE: exec,
-}
+If you need to pass flags to your command, you need to specify where
+the flags for the roly command finish using "--" like:
+roly exec -q -- PROFILE CMD --your-command-flags
+or you can quote your command like:
+roly exec PROFILE "CMD --your-command-flags"`,
+	RunE: exec}
 
 func init() {
 	RootCmd.AddCommand(execCmd)
@@ -38,8 +41,18 @@ func exec(cmd *cobra.Command, args []string) error {
 	os.Setenv("AWS_SECRET_ACCESS_KEY", creds.SecretAccessKey)
 	os.Setenv("AWS_SESSION_TOKEN", creds.SessionToken)
 
-	subCommandName := args[1]
-	subCommandArgs := args[2:]
+	var subCommandName string
+	var subCommandArgs []string
+
+	// Assume command is quoted
+	if len(args) == 2 {
+		fields := strings.Fields(args[1])
+		subCommandName = fields[0]
+		subCommandArgs = fields[1:]
+	} else {
+		subCommandName = args[1]
+		subCommandArgs = args[2:]
+	}
 
 	subCommand := osExec.Command(subCommandName, subCommandArgs...)
 	subCommand.Stdout = os.Stdout
