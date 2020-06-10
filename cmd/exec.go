@@ -39,7 +39,9 @@ func exec(cmd *cobra.Command, args []string) error {
 
 	os.Setenv("AWS_ACCESS_KEY_ID", creds.AccessKeyID)
 	os.Setenv("AWS_SECRET_ACCESS_KEY", creds.SecretAccessKey)
-	os.Setenv("AWS_SESSION_TOKEN", creds.SessionToken)
+	if creds.SessionToken != "" {
+		os.Setenv("AWS_SESSION_TOKEN", creds.SessionToken)
+	}
 
 	var subCommandName string
 	var subCommandArgs []string

@@ -35,7 +35,10 @@ func export(cmd *cobra.Command, args []string) error {
 	fmt.Printf("export AWS_PROFILE='%s'\n", profileName)
 	fmt.Printf("export AWS_ACCESS_KEY_ID='%s'\n", creds.AccessKeyID)
 	fmt.Printf("export AWS_SECRET_ACCESS_KEY='%s'\n", creds.SecretAccessKey)
-	fmt.Printf("export AWS_SESSION_TOKEN='%s'\n", creds.SessionToken)
+
+	if creds.SessionToken != "" {
+		fmt.Printf("export AWS_SESSION_TOKEN='%s'\n", creds.SessionToken)
+	}
 
 	return nil
 }
