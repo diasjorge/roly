@@ -7,10 +7,9 @@ build:
   goarch:
     - amd64
 
-brew:
-  github:
-    owner: diasjorge
-    name: homebrew-tap
-
-  homepage: "https://github.com/diasjorge/roly/"
-  description: "Set AWS environment variables based on your profile"
+brews:
+  - github:
+      owner: diasjorge
+      name: homebrew-tap
+    homepage: "https://github.com/diasjorge/roly/"
+    description: "Set AWS environment variables based on your profile"
