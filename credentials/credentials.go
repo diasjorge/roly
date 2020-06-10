@@ -2,7 +2,6 @@ package credentials
 
 import (
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -11,27 +10,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 )
 
-var keys = []string{
-	"AWS_ACCESS_KEY_ID",
-	"AWS_SECRET_ACCESS_KEY",
-	"AWS_SESSION_TOKEN",
-}
-
-func cleanEnv() error {
-	for _, key := range keys {
-		if err := os.Setenv(key, ""); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
 // Get returns Profile Credentials
 func Get(profile string, quiet bool) (credentials.Value, error) {
-	if err := cleanEnv(); err != nil {
-		return *&credentials.Value{}, err
-	}
-
 	stscreds.DefaultDuration = 3600 * time.Second
 
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
