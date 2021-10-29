@@ -8,7 +8,7 @@ build:
     - amd64
 
 brews:
-  - github:
+  - tap:
       owner: diasjorge
       name: homebrew-tap
     homepage: "https://github.com/diasjorge/roly/"
