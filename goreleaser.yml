@@ -1,15 +1,47 @@
-# goreleaser.yml
-# Build customization
-build:
-  goos:
-    - darwin
-    - linux
-  goarch:
-    - amd64
+# This is an example .goreleaser.yml file with some sane defaults.
+# Make sure to check the documentation at http://goreleaser.com
+before:
+  hooks:
+    - go mod tidy
+
+release:
+  prerelease: auto
+
+
+builds:
+  - id: darwin-amd64
+    mod_timestamp: "{{ .CommitTimestamp }}"
+    goos:
+      - darwin
+    goarch:
+      - amd64
+    ldflags:
+      - "-s -w -X main.version={{.Version}} -X main.revision={{ .ShortCommit }}"
+
+  - id: darwin-arm64
+    mod_timestamp: "{{ .CommitTimestamp }}"
+    goos:
+      - darwin
+    goarch:
+      - arm64
+    ldflags:
+      - "-s -w -X main.version={{.Version}} -X main.revision={{ .ShortCommit }}"
+
+  - id:
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    goarm:
+      - 6
+      - 7
+    ldflags:
+      - "-s -w -X main.version={{ .Version }} -X main.revision={{ .ShortCommit }}"
 
 brews:
-  - github:
+  - tap:
       owner: diasjorge
       name: homebrew-tap
     homepage: "https://github.com/diasjorge/roly/"
-    description: "Set AWS environment variables based on your profile"
